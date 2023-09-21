@@ -17,12 +17,21 @@ namespace webApi.event_.manha.Repositories
 
         public void Atualizar(Guid id, TiposUsuario tipoUsuario)
         {
-            throw new NotImplementedException();
+            TiposUsuario tipoUsuarioBuscado = _eventContext.TipoUsuario.Find(id)!;
+
+            if (tipoUsuarioBuscado != null)
+            {
+                tipoUsuarioBuscado.Titulo = tipoUsuario.Titulo;
+            }
+
+            _eventContext.TipoUsuario.Update(tipoUsuarioBuscado!);
+
+            _eventContext.SaveChanges();
         }
 
         public TiposUsuario BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return _eventContext.TipoUsuario.FirstOrDefault(z => z.IdTipoUsuario == id);
         }
 
         public void Cadastrar(TiposUsuario tipoUsuario)
@@ -41,9 +50,7 @@ namespace webApi.event_.manha.Repositories
 
         public List<TiposUsuario> Listar()
         {
-
             return _eventContext.TipoUsuario.ToList();
-
         }
     }
 }
