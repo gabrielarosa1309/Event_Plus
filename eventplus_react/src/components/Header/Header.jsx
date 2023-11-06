@@ -1,19 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import './Header.css';
-import { Link } from "react-router-dom";
+import Container from "../Container/Container";
+import Nav from "../Nav/Nav";
+import PerfilUsuario from "../PerfilUsuario/PerfilUsuario";
+import menubar from "../../assets/images/images/menubar.png";
 
 const Header = () => {
+
+    const [exibeNavbar, setExibeNavbar] = useState(false); //state para exibir menu
+
     return (
-        <header>
-            <nav>
-                <Link to="/">Home</Link>
-                <br />
-                <Link to="/eventos">Eventos</Link>
-                <br />
-                <Link to="/tiposeventos">Tipos de Eventos</Link>
-                <br />
-                <Link to="/teste">POCs</Link>
-            </nav>
+        <header className="headerpage">
+            <Container>
+                <div className="header-flex">
+                    <img
+                        className="headerpage__menubar"
+                        onClick={() => {setExibeNavbar(true)}} 
+                        src={menubar}
+                        alt="Menu de barras. Serve para exibir ou esconder o menu no smartphone."
+                    />
+                    <Nav exibeNavbar={exibeNavbar} setExibeNavbar={setExibeNavbar} />
+                    <PerfilUsuario />
+                </div>
+            </Container>
         </header>
     );
 }
