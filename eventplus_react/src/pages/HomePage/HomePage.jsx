@@ -1,10 +1,18 @@
 import React from 'react';
 import './HomePage.css';
+// import Title from '../../components/Title/Title';
+import Banner from '../../components/Banner/Banner';
+import VisionSection from '../../components/VisionSection/VisionSection';
+import MainContent from '../../components/Main/MainContent';
 
 const HomePage = () => {
     return (
         <div>
-            <h1>Página Home</h1>
+            {/* <Title titleText="Página Home" marginTop='margin_top'/> */}
+            <MainContent>
+                <Banner />
+                <VisionSection/>
+            </MainContent>
         </div>
     );
 };
