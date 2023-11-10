@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../Services/Service';
+import { nextEventResource } from '../../Services/Service';
 import './HomePage.css';
+
 import Title from '../../components/Title/Title';
 import MainContent from '../../components/Main/MainContent';
 import Banner from '../../components/Banner/Banner';
@@ -9,6 +12,26 @@ import VisionSection from '../../components/VisionSection/VisionSection';
 import ContactSection from '../../components/ContactSection/ContactSection';
 
 const HomePage = () => {
+    //dados em "mocados"
+    const [nextEvents, setNextEvents] = useState([]);
+
+    //roda somente na inicialização do componente
+    useEffect(() => {
+        async function getNextEvents() {
+            try {
+                const promise = await api.get(nextEventResource)
+                const dados = await promise.data;
+                setNextEvents(dados); //atualiza o state
+                console.log(dados);
+            } 
+            catch (error) {
+                alert("Deu ruim na api!")
+            }
+        }
+
+        getNextEvents(); //roda a função
+    }, [])
+
     return (
         <div>
             <MainContent>
@@ -19,30 +42,22 @@ const HomePage = () => {
                         <Title titleText={"Próximos Eventos"}/>
 
                         <div className='events-box'>
-                            <NextEvent
-                                title={"Evento X"}
-                                description={"Evento legal"}
-                                eventDate={"10/11/2023"}
-                                idEvent={"JKSNDXKJD"}
-                            />
-                            <NextEvent
-                                title={"Evento Y"}
-                                description={"Evento nem tão legal"}
-                                eventDate={"11/11/2023"}
-                                idEvent={"KJFKGRG"}
-                            />
-                            <NextEvent
-                                title={"Evento Z"}
-                                description={"Evento mega legal"}
-                                eventDate={"12/11/2023"}
-                                idEvent={"SDLFMLFLK"}
-                            />
-                            <NextEvent
-                                title={"Evento W"}
-                                description={"Evento um pouco legal"}
-                                eventDate={"13/11/2023"}
-                                idEvent={"LKJIJFIHF"}
-                            />
+                            {/* dentro da div event blocks nós criamos um código de javascript usando as chaves */}
+                            {
+                                // Aqui chamamos a array criada e criamos um componente para cada item dela
+                                nextEvents.map((e) => {
+                                    return (
+                                        <NextEvent
+                                            key={e.idEvento}
+                                            idEvent={e.idEvento}
+                                            title={e.nomeEvento}
+                                            description={e.descricao}
+                                            eventDate={e.dataEvento}
+                                            
+                                        />
+                                    );
+                                })
+                            }
                         </div>
                     </Container>
                 </section>

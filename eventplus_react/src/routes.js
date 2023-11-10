@@ -8,22 +8,24 @@ import EventosPage from "./pages/EventosPage/EventosPage";
 import TipoEventosPage from "./pages/TipoEventosPage/TipoEventosPage";
 import TestePage from "./pages/TestePage/TestePage";
 import Footer from "./components/Footer/Footer";
+import UseEffectPage from "./pages/UseEffectPage/UseEffectPage";
 
 const Rotas = () => {
     return (
         <>
-        <BrowserRouter>
-            <Header />
+            <BrowserRouter>
+                <Header />
             
-            <Routes> 
-                <Route element={<HomePage/>} path="/" exact/>
-                <Route element={<EventosPage/>} path="/eventos"/>
-                <Route element={<TipoEventosPage/>} path="/tiposeventos"/>
-                <Route element={<TestePage/>} path="/teste"/>
-            </Routes>
+                <Routes> 
+                    <Route element={<HomePage/>} path="/" exact/>
+                    <Route element={<EventosPage/>} path="/eventos"/>
+                    <Route element={<TipoEventosPage/>} path="/tiposeventos"/>
+                    <Route element={<TestePage/>} path="/teste"/>
+                    <Route element={<UseEffectPage/>} path="/useEffectPage"/>
+                </Routes>
 
-            <Footer />
-        </BrowserRouter>
+                <Footer />
+            </BrowserRouter>
         </>
     );
 }

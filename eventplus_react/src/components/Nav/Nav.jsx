@@ -17,6 +17,7 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
                     className='eventlogo__logo-image'
                     src={window.innerWidth >= 992 ? logoDesktop : logoMobile} 
                     alt="Event+ Logo" 
+                    onClick={() => {setExibeNavbar(false)}}
                 />
             </Link>
             
@@ -25,6 +26,7 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
                 <Link onClick={() => {setExibeNavbar(false)}} to="/eventos" className='navbar__item'>Eventos</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/teste" className='navbar__item'>POCs</Link>
+                <Link onClick={() => {setExibeNavbar(false)}} to="/useEffectPage" className='navbar__item' >UseEffect</Link>
             </div>
         </nav>
     );
