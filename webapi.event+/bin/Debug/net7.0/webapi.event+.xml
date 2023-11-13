@@ -15,17 +15,5 @@
             </summary>
             <param name="optionsBuilder">Objeto com as configurações definidas</param>
         </member>
-        <member name="T:webapi.event_.Migrations.BD_v5">
-            <inheritdoc />
-        </member>
-        <member name="M:webapi.event_.Migrations.BD_v5.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:webapi.event_.Migrations.BD_v5.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:webapi.event_.Migrations.BD_v5.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
     </members>
 </doc>
