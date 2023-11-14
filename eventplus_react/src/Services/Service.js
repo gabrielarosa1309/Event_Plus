@@ -1,5 +1,4 @@
 import axios from "axios";
-
 /**
  * Rota para o recurso Evento
  */

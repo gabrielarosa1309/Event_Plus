@@ -1,7 +1,7 @@
 import React from 'react';
 import './FormComponents.css';
 
-export const input = ({type, id, name, value, required, additionalClass, placeholder, manipulationFunction}) => {
+export const Input = ({type, id, name, value, required, additionalClass, placeholder, manipulationFunction=""}) => {
     return (
         <input
             type={type}
@@ -23,7 +23,7 @@ export const Label = ({htmlFor, labelText}) => {
 
 //componente criado na forma tradicional props ao invés de destructuring
 export const Button = (props) => {
-    return (<button id={props.id} name={props.name} type={props.type} className={props.additionalClass} onClick={props.manipulationFunction}>{props.textButton}</button>)
+    return (<button id={props.id} name={props.name} type={props.type} className={`button-component ${props.additionalClass}`} onClick={props.manipulationFunction}>{props.textButton}</button>)
 }
 
 export const Select = ({required, id, name, options, manipulationFunction, additionalClass = "", defaultValue}) => {
