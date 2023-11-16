@@ -26,7 +26,7 @@ const TipoEventosPage = () => {
         }
         //chama a função/api no carregamento da página/componente
         loadEventsType();
-    }, []);
+    }, [tipoEvento]);
 
     /**
      * Função que adiciona um tipo de evento na API
@@ -45,33 +45,47 @@ const TipoEventosPage = () => {
             alert("Deu ruim no submit");
         }
     }
-
-    /**
-     * Função que altera o tipo de evento na API
-     */
-    function handleUpdate() {
-
-    }
-
-    /**
-     * Função que cancela a alteração do tipo de evento na API
-     */
-    function editActionAbort() {
-
-    }
-
+    
     /**
      * Função que mostra o formulário de edição do tipo de evento
-     */
-    function showUpdateForm() {
+    */
+   function showUpdateForm() {
+       
+    }
+
+    /**
+    * Função que cancela a alteração do tipo de evento na API
+    */
+    function editActionAbort() {
+    
+    }
+
+    /**
+    * Função que altera o tipo de evento na API
+    */
+    function handleUpdate() {
 
     }
 
     /**
      * Função que exclui um tipo de evento na API
      */
-    function handleDelete() {
+    async function handleDelete(idtipoevento) {
+        // alert("Certeza que deseja excluir o tipo de evento " + `"${titulo}"` + "?");
 
+        if(! window.confirm("Certeza que deseja excluir o tipo de evento " + `"${titulo}"` + "?")){
+            return;
+        }
+
+        try {
+            const promise = await api.delete(eventsTypeResource + `/${idtipoevento}`);
+
+            if(promise.status == 204){
+                alert("Evento deletado!");
+            }
+        } catch(error) {
+            alert("Deu ruim pra deletar o evento");
+        }
     }
     
     return (
