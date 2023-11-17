@@ -8,11 +8,13 @@ import ImageIllustrator from '../../components/ImageIllustrator/ImageIllustrator
 import tipoEventoImg from '../../assets/images/images/tipo-evento.svg';
 import { Input, Button } from "../../components/FormComponents/FormComponents";
 import api, { eventsTypeResource } from '../../Services/Service';
+import Notification from '../../components/Notification/Notification';
 
 const TipoEventosPage = () => {
     const [frmEdit, setFrmEdit] = useState(false); //está em modo de edição?
     const [titulo, setTitulo] = useState();
     const [tipoEvento, setTipoEvento] = useState([]);
+    const [notifyUser, setNotifyUser] = useState();
 
     useEffect(() => {
         async function loadEventsType() {
@@ -26,7 +28,7 @@ const TipoEventosPage = () => {
         }
         //chama a função/api no carregamento da página/componente
         loadEventsType();
-    }, [tipoEvento]);
+    }, []);
 
     /**
      * Função que adiciona um tipo de evento na API
@@ -49,47 +51,64 @@ const TipoEventosPage = () => {
     /**
      * Função que mostra o formulário de edição do tipo de evento
     */
-   function showUpdateForm() {
-       
+    async function showUpdateForm(idElement) {
+        setFrmEdit(true);
+        try {
+            const retorno = await api.get(`${eventsTypeResource}/${idElement}`);
+            setTitulo(retorno.data.titulo);
+            console.log(retorno.data)
+        } catch (error) {
+
+        }
     }
 
     /**
     * Função que cancela a alteração do tipo de evento na API
     */
     function editActionAbort() {
-    
+        setFrmEdit(false);
+        setTitulo("");
     }
 
     /**
     * Função que altera o tipo de evento na API
     */
-    function handleUpdate() {
-
+    async function handleUpdate(e) {
+        e.preventDefault();
     }
 
     /**
      * Função que exclui um tipo de evento na API
      */
-    async function handleDelete(idtipoevento) {
-        // alert("Certeza que deseja excluir o tipo de evento " + `"${titulo}"` + "?");
+    async function handleDelete(idElement) {
+        if(window.confirm("Certeza que deseja excluir este tipo de evento?")){
+            try {
+                const promise = await api.delete(eventsTypeResource + `/${idElement}`);
 
-        if(! window.confirm("Certeza que deseja excluir o tipo de evento " + `"${titulo}"` + "?")){
-            return;
+                console.log(promise.status);
+    
+                if(promise.status == 204){
+                    setNotifyUser({
+                        titleNote: "Sucesso",
+                        textNote: "Evento excluído com sucesso",
+                        imgIcon: "Success",
+                        imgAlt: "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok",
+                        showMessage: true
+                    })
+                    const buscaEventos = await api.get(eventsTypeResource);
+                    setTipoEvento(buscaEventos.data);
+                }
+            } catch(error) {
+                alert("Problemas para excluir o tipo de evento");
+                console.log(error)
+            } 
         }
 
-        try {
-            const promise = await api.delete(eventsTypeResource + `/${idtipoevento}`);
-
-            if(promise.status == 204){
-                alert("Evento deletado!");
-            }
-        } catch(error) {
-            alert("Deu ruim pra deletar o evento");
-        }
     }
     
     return (
         <>
+        {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
             <MainContent>
                 {/* SECTION DE CADASTRO E ATUALIZAÇÃO DE TIPO DE EVENTO */}
                 <section className="cadastro-evento-section">
@@ -113,11 +132,24 @@ const TipoEventosPage = () => {
                                             manipulationFunction={(e) => {setTitulo(e.target.value);}}
                                         />
 
-                                        <Button textButton="Cadastrar" id="cadastrar" name="casadatrar" type="submit"/>
+                                        <Button textButton="Cadastrar" id="cadastrar" name="cadastrar" type="submit"/>
                                     </>
                                 ) : (
                                     <>
+                                        <Input
+                                            id="Titulo"
+                                            placeholder=''
+                                            name={"titulo"}
+                                            type={"text"}
+                                            required={"required"}
+                                            value={titulo}
+                                            manipulationFunction={(e) => {setTitulo(e.target.value);}}
+                                        />
 
+                                        <div className="buttons-editbox">
+                                            <Button textButton="Atualizar" id="atualizar" name="atualizar" type="submit" additionalClass="button-component--middle" />
+                                            <Button textButton="Cancelar" id="cancelar" name="cancelar" type="button" manipulationFunction={editActionAbort} additionalClass="button-component--middle" />
+                                        </div>
                                     </>
                                 )
                                 }

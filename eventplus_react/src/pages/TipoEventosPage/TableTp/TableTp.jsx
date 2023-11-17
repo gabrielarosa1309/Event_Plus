@@ -18,13 +18,18 @@ const TableTp = ({dados, fnDelete = null, fnUpdate = null}) => {
             <tbody>
                 {dados.map((tp) => {
                     return (
-                        <tr className="table-data__head-row">
+                        <tr className="table-data__head-row" key={tp.idTipoEvento}>
                             <td className="table-data__data table-data__data--big">
                                 {tp.titulo}
                             </td>
 
                             <td className="table-data__data table-data__data--little">
-                                <img className="table-data__icon" src={edtPen} alt="Ícone em forma de caneta que edita o tipo de evento" />
+                                <img 
+                                    className="table-data__icon" alt="Ícone em forma de caneta que edita o tipo de evento" 
+                                    idtipoevento={tp.idTipoEvento}
+                                    src={edtPen}  
+                                    onClick={(e) => {fnUpdate(tp.idTipoEvento)}} 
+                                />
                             </td>
 
                             <td className="table-data__data table-data__data--little">
@@ -32,7 +37,7 @@ const TableTp = ({dados, fnDelete = null, fnUpdate = null}) => {
                                     className="table-data__icon" alt="Ícone em forma de lata de lixo que exclui o tipo de evento" 
                                     idtipoevento={tp.idTipoEvento}
                                     src={trashDelete} 
-                                    onClick={() => {fnDelete(tp.idTipoEvento)}} 
+                                    onClick={(e) => {fnDelete(tp.idTipoEvento)}} 
                                 />
                             </td>
                         </tr>
