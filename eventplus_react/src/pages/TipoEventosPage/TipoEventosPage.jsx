@@ -9,6 +9,7 @@ import tipoEventoImg from '../../assets/images/images/tipo-evento.svg';
 import { Input, Button } from "../../components/FormComponents/FormComponents";
 import api, { eventsTypeResource } from '../../Services/Service';
 import Notification from '../../components/Notification/Notification';
+import Spinner from '../../components/Spinner/Spinner';
 
 const TipoEventosPage = () => {
     const [frmEdit, setFrmEdit] = useState(false); //está em modo de edição?
@@ -16,9 +17,12 @@ const TipoEventosPage = () => {
     const [idEvento, setIdEvento] = useState(null);
     const [tipoEvento, setTipoEvento] = useState([]);
     const [notifyUser, setNotifyUser] = useState();
+    const [showSpinner, setShowSpinner] = useState(false);
 
     useEffect(() => {
         async function loadEventsType() {
+            setShowSpinner(true); 
+
             try {
                 const retorno = await api.get(eventsTypeResource);
                 setTipoEvento(retorno.data)
@@ -32,6 +36,8 @@ const TipoEventosPage = () => {
                 })
                 console.log(error);
             }
+
+            setShowSpinner(false);
         }
         //chama a função/api no carregamento da página/componente
         loadEventsType();
@@ -54,6 +60,8 @@ const TipoEventosPage = () => {
             })
             return;
         }
+
+        setShowSpinner(true);
 
         try {
             //cadastrar na API
@@ -82,6 +90,8 @@ const TipoEventosPage = () => {
                 showMessage: true
             })
         }
+
+        setShowSpinner(false);
     }
     
     /**
@@ -90,11 +100,16 @@ const TipoEventosPage = () => {
     async function showUpdateForm(idElement) {
         setFrmEdit(true);
         setIdEvento(idElement); //preenche o id do evento para poder atualizar
+
+        setShowSpinner(true);
+
         try {
             const retorno = await api.get(`${eventsTypeResource}/${idElement}`);
             setTitulo(retorno.data.titulo);
             console.log(retorno.data)
         } catch (error) {}
+
+        setShowSpinner(false);
     }
 
     /**
@@ -113,6 +128,8 @@ const TipoEventosPage = () => {
     */
     async function handleUpdate(e) {
         e.preventDefault(); //para o evento de submit
+
+        setShowSpinner(true);
 
         try {
             //atualizar na API
@@ -142,6 +159,8 @@ const TipoEventosPage = () => {
                 showMessage: true
             })
         }
+
+        setShowSpinner(false);
     }
 
     /**
@@ -149,6 +168,9 @@ const TipoEventosPage = () => {
      */
     async function handleDelete(idElement) {
         if(window.confirm("Certeza que deseja excluir este tipo de evento?")){
+
+            setShowSpinner(true);
+
             try {
                 const promise = await api.delete(eventsTypeResource + `/${idElement}`);
 
@@ -171,6 +193,8 @@ const TipoEventosPage = () => {
                 alert("Problemas para excluir o tipo de evento");
                 console.log(error)
             } 
+
+            setShowSpinner(false);
         }
 
     }
@@ -178,6 +202,7 @@ const TipoEventosPage = () => {
     return (
         <>
         {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
+        {showSpinner ? <Spinner /> : null}
             <MainContent>
                 {/* SECTION DE CADASTRO E ATUALIZAÇÃO DE TIPO DE EVENTO */}
                 <section className="cadastro-evento-section">
