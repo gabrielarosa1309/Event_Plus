@@ -12,7 +12,8 @@ import Notification from '../../components/Notification/Notification';
 
 const TipoEventosPage = () => {
     const [frmEdit, setFrmEdit] = useState(false); //está em modo de edição?
-    const [titulo, setTitulo] = useState();
+    const [titulo, setTitulo] = useState("");
+    const [idEvento, setIdEvento] = useState(null);
     const [tipoEvento, setTipoEvento] = useState([]);
     const [notifyUser, setNotifyUser] = useState();
 
@@ -22,7 +23,13 @@ const TipoEventosPage = () => {
                 const retorno = await api.get(eventsTypeResource);
                 setTipoEvento(retorno.data)
             } catch(error) {
-                console.log("Erro na API");
+                setNotifyUser({
+                    titleNote: "Erro",
+                    textNote: "Não foi possível carregar os próximos eventos. Verifique sua conexão.",
+                    imgIcon: "danger",
+                    imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                    showMessage: true
+                })
                 console.log(error);
             }
         }
@@ -36,15 +43,44 @@ const TipoEventosPage = () => {
     async function handleSubmit(e) {
         e.preventDefault(); //evita o submit do form
         
+        //valida se o título a ser cadastrado possui a quantidade mínima de caracteres
         if(titulo.trim().length < 3) {
-            alert("O título deve ter pelo menos 3 caracteres!");
+            setNotifyUser({
+                titleNote: "Aviso",
+                textNote: "O título deve ter pelo menos 3 caracteres!",
+                imgIcon: "warning",
+                imgAlt: "",
+                showMessage: true
+            })
+            return;
         }
 
         try {
+            //cadastrar na API
             const retorno = await api.post(eventsTypeResource, {titulo:titulo});
-            alert("Deu bom no submit");
+            //limpa o state
+            setTitulo(""); 
+            //notifica o usuário que deu tudo certo
+            setNotifyUser({
+                titleNote: "Sucesso",
+                textNote: "Tipo de evento cadastrado com sucesso",
+                imgIcon: "success",
+                imgAlt: "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok.",
+                showMessage: true
+            })
+            //atualiza os dados
+            const buscaEventos = await api.get(eventsTypeResource);
+            setTipoEvento(buscaEventos.data);
+
         } catch(error) {
-            alert("Deu ruim no submit");
+            //notifica o usuário que deu tudo errado
+            setNotifyUser({
+                titleNote: "Erro",
+                textNote: "Erro ao cadastrar tipo de evento. Verifique sua conexão.",
+                imgIcon: "danger",
+                imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                showMessage: true
+            })
         }
     }
     
@@ -53,13 +89,12 @@ const TipoEventosPage = () => {
     */
     async function showUpdateForm(idElement) {
         setFrmEdit(true);
+        setIdEvento(idElement); //preenche o id do evento para poder atualizar
         try {
             const retorno = await api.get(`${eventsTypeResource}/${idElement}`);
             setTitulo(retorno.data.titulo);
             console.log(retorno.data)
-        } catch (error) {
-
-        }
+        } catch (error) {}
     }
 
     /**
@@ -67,14 +102,46 @@ const TipoEventosPage = () => {
     */
     function editActionAbort() {
         setFrmEdit(false);
+
+        //reseta as variáveis
         setTitulo("");
+        setIdEvento(null);
     }
 
     /**
     * Função que altera o tipo de evento na API
     */
     async function handleUpdate(e) {
-        e.preventDefault();
+        e.preventDefault(); //para o evento de submit
+
+        try {
+            //atualizar na API
+            const retorno = await api.put(eventsTypeResource + "/" + idEvento, {"titulo":titulo}); //o id está no state
+            if (retorno.status === 204) {
+                //notifica o usuário que deu tudo certo
+                setNotifyUser({
+                    titleNote: "Sucesso",
+                    textNote: "Tipo de evento atualizado com sucesso",
+                    imgIcon: "success",
+                    imgAlt: "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok.",
+                    showMessage: true
+                })
+                //atualiza os dados
+                const retorno = await api.get(eventsTypeResource);
+                setTipoEvento(retorno.data);
+                //reseta o state, volta para a tela de cadastro
+                editActionAbort();
+            }
+        } catch (error) {
+            //notifica o usuário que deu tudo errado
+            setNotifyUser({
+                titleNote: "Erro",
+                textNote: "Erro ao atualizar tipo de evento. Verifique sua conexão.",
+                imgIcon: "danger",
+                imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                showMessage: true
+            })
+        }
     }
 
     /**
@@ -90,11 +157,13 @@ const TipoEventosPage = () => {
                 if(promise.status == 204){
                     setNotifyUser({
                         titleNote: "Sucesso",
-                        textNote: "Evento excluído com sucesso",
-                        imgIcon: "Success",
+                        textNote: "Tipo de evento excluído com sucesso",
+                        imgIcon: "success",
                         imgAlt: "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok",
                         showMessage: true
                     })
+
+                    //atualiza a tela
                     const buscaEventos = await api.get(eventsTypeResource);
                     setTipoEvento(buscaEventos.data);
                 }

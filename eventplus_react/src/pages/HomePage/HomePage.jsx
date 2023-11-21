@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../Services/Service';
 import { nextEventResource } from '../../Services/Service';
 import './HomePage.css';
+import Notification from '../../components/Notification/Notification';
 
 import Title from '../../components/Title/Title';
 import MainContent from '../../components/Main/MainContent';
@@ -14,6 +15,7 @@ import ContactSection from '../../components/ContactSection/ContactSection';
 const HomePage = () => {
     //dados em "mocados"
     const [nextEvents, setNextEvents] = useState([]);
+    const [notifyUser, setNotifyUser] = useState();
 
     //roda somente na inicialização do componente
     useEffect(() => {
@@ -25,7 +27,13 @@ const HomePage = () => {
                 console.log(dados);
             } 
             catch (error) {
-                alert("Deu ruim na api!")
+                setNotifyUser({
+                    titleNote: "Erro",
+                    textNote: "Não foi possível carregar os próximos eventos. Verifique sua conexão.",
+                    imgIcon: "danger",
+                    imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                    showMessage: true
+                })
             }
         }
 
@@ -35,6 +43,7 @@ const HomePage = () => {
     return (
         <div>
             <MainContent>
+            {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
                 <Banner/>
 
                 <section className='proximos-eventos'>

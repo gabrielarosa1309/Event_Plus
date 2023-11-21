@@ -83,7 +83,7 @@ namespace webapi.event_.Repositories
         {
             try
             {
-                return _context.TiposEvento.ToList();
+                return _context.TiposEvento.OrderBy(z => z.Titulo).ToList();
             }
             catch (Exception)
             {
