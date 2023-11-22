@@ -35,3 +35,7 @@ export const Select = ({required, id, name, options, manipulationFunction, addit
         </select>
     );
 }
+
+// export const Options = () {
+//     return()
+// }
