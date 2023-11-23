@@ -15,7 +15,7 @@ const NextEvent = ({title, description, eventDate, idEvent}) => {
             <p className='event-card__description' data-tooltip-id={idEvent} data-tooltip-content={description} data-tooltip-place="top">
                 <Tooltip id={idEvent} className='tooltip'/> {description.substr(0, 15)}...
             </p>
-            <p className='event-card__description'>{dateFormatDbToView(eventDate)}</p>
+            <p className='event-card__description'>{new Date(eventDate).toLocaleDateString()}</p>
             <a onClick={()=> {Conectar(idEvent)}}href= "" className="event-card__connect-link">Conectar</a>
         </article>
     );

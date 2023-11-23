@@ -1,5 +1,6 @@
 import React from 'react';
 import './TableEvento.css';
+import { dateFormatDbToView } from '../../../Utils/stringFunctions';
 import edtPen from '../../../assets/images/images/edit-pen.svg';
 import trashDelete from '../../../assets/images/images/trash-delete.svg';
 
@@ -33,15 +34,15 @@ const TableEvento = ({dados, fnDelete = null, fnUpdate = null}) => {
                             </td>
 
                             <td className="table-data__data table-data__data--big">
-                                {ev.idTipoEvento}
+                                {ev.tiposEvento.titulo}
                             </td>
 
                             <td className="table-data__data table-data__data--big">
-                                {ev.idInstituicao}
+                                {ev.instituicao.nomeFantasia}
                             </td>
 
                             <td className="table-data__data table-data__data--big">
-                                {ev.dataEvento}
+                                {dateFormatDbToView(ev.dataEvento)}
                             </td>
 
                             <td className="table-data__data table-data__data--little">
