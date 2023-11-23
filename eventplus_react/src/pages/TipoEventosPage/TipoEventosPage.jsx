@@ -190,7 +190,13 @@ const TipoEventosPage = () => {
                     setTipoEvento(buscaEventos.data);
                 }
             } catch(error) {
-                alert("Problemas para excluir o tipo de evento");
+                setNotifyUser({
+                    titleNote: "Erro",
+                    textNote: "Não foi possível excluir. Verifique sua conexão.",
+                    imgIcon: "danger",
+                    imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                    showMessage: true
+                })
                 console.log(error)
             } 
 

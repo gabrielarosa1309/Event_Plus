@@ -40,6 +40,10 @@ const TableEvento = ({dados, fnDelete = null, fnUpdate = null}) => {
                                 {ev.idInstituicao}
                             </td>
 
+                            <td className="table-data__data table-data__data--big">
+                                {ev.dataEvento}
+                            </td>
+
                             <td className="table-data__data table-data__data--little">
                                 <img 
                                     className="table-data__icon" alt="Ícone em forma de caneta que edita o tipo de evento" 
