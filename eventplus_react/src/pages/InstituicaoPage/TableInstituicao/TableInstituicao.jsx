@@ -10,10 +10,12 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
             <thead className="table-data__head">
                 <tr className="table-data__head-row">
                     <th className="table-data__head-title table-data__head-title--big">Nome Fantasia</th>
+                    <th className="table-data__head-title table-data__head-title--big">Endereço</th>
                     <th className="table-data__head-title table-data__head-title--little">Editar</th>
                     <th className="table-data__head-title table-data__head-title--little">Deletar</th>
                 </tr>
             </thead>
+            
             {/* CORPO */}
             <tbody>
                 {dados.map((tp) => {
@@ -23,10 +25,14 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
                                 {tp.nomeFantasia}
                             </td>
 
+                            <td className="table-data__data table-data__data--big">
+                                {tp.endereco}
+                            </td>
+
                             <td className="table-data__data table-data__data--little">
                                 <img 
                                     className="table-data__icon" alt="Ícone em forma de caneta que edita o tipo de evento" 
-                                    idinstituicao={tp.idInstituicao}
+                                    // idinstituicao={tp.idInstituicao}
                                     src={edtPen}  
                                     onClick={(e) => {fnUpdate(tp.idInstituicao)}} 
                                 />
@@ -35,7 +41,7 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
                             <td className="table-data__data table-data__data--little">
                                 <img
                                     className="table-data__icon" alt="Ícone em forma de lata de lixo que exclui o tipo de evento" 
-                                    idinstituicao={tp.idInstituicao}
+                                    // idinstituicao={tp.idInstituicao}
                                     src={trashDelete} 
                                     onClick={(e) => {fnDelete(tp.idInstituicao)}} 
                                 />

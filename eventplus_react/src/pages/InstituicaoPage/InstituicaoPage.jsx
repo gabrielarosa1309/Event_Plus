@@ -14,6 +14,8 @@ import Spinner from '../../components/Spinner/Spinner';
 const InstituicaoPage = () => {
     const [frmEdit, setFrmEdit] = useState(false); //está em modo de edição?
     const [nomeFantasia, setNomeFantasia] = useState("");
+    const [cnpj, setCnpj] = useState("");
+    const [endereco, setEndereco] = useState("");
     const [idInstituicao, setIdInstituicao] = useState(null);
     const [instituicao, setInstituicao] = useState([]);
     const [notifyUser, setNotifyUser] = useState();
@@ -65,7 +67,7 @@ const InstituicaoPage = () => {
 
         try {
             //cadastrar na API
-            const retorno = await api.post(instituicaoResource, {nomeFantasia:nomeFantasia});
+            const retorno = await api.post(instituicaoResource, {nomeFantasia:nomeFantasia, cnpj:cnpj, endereco:endereco});
             //limpa o state
             setNomeFantasia(""); 
             //notifica o usuário que deu tudo certo
@@ -77,8 +79,8 @@ const InstituicaoPage = () => {
                 showMessage: true
             })
             //atualiza os dados
-            const buscaEventos = await api.get(instituicaoResource);
-            setInstituicao(buscaEventos.data);
+            const buscaInstituicoes = await api.get(instituicaoResource);
+            setInstituicao(buscaInstituicoes.data);
 
         } catch(error) {
             //notifica o usuário que deu tudo errado
@@ -105,7 +107,7 @@ const InstituicaoPage = () => {
 
         try {
             const retorno = await api.get(`${instituicaoResource}/${idElement}`);
-            setInstituicao(retorno.data.titulo);
+            setInstituicao(retorno.data);
             console.log(retorno.data)
         } catch (error) {}
 
@@ -133,7 +135,7 @@ const InstituicaoPage = () => {
 
         try {
             //atualizar na API
-            const retorno = await api.put(instituicaoResource + "/" + idInstituicao, {"nomeFantasia":nomeFantasia}); //o id está no state
+            const retorno = await api.put(instituicaoResource + "/" + idInstituicao, {"nomeFantasia":nomeFantasia, cnpj:cnpj, endereco:endereco}); //o id está no state
             if (retorno.status === 204) {
                 //notifica o usuário que deu tudo certo
                 setNotifyUser({
@@ -232,6 +234,26 @@ const InstituicaoPage = () => {
                                             manipulationFunction={(e) => {setNomeFantasia(e.target.value);}}
                                         />
 
+                                        <Input
+                                            id="CNPJ"
+                                            placeholder="CNPJ"
+                                            name={"cnpj"}
+                                            type={"text"}
+                                            required={"required"}
+                                            value={cnpj}
+                                            manipulationFunction={(e) => {setCnpj(e.target.value);}}
+                                        />
+
+                                        <Input
+                                            id="Endereco"
+                                            placeholder="Endereço"
+                                            name={"endereco"}
+                                            type={"text"}
+                                            required={"required"}
+                                            value={endereco}
+                                            manipulationFunction={(e) => {setEndereco(e.target.value);}}
+                                        />
+
                                         <Button textButton="Cadastrar" id="cadastrar" name="cadastrar" type="submit"/>
                                     </>
                                 ) : (
@@ -244,6 +266,26 @@ const InstituicaoPage = () => {
                                             required={"required"}
                                             value={nomeFantasia}
                                             manipulationFunction={(e) => {setNomeFantasia(e.target.value);}}
+                                        />
+
+                                        <Input
+                                            id="CNPJ"
+                                            placeholder=''
+                                            name={"cnpj"}
+                                            type={"text"}
+                                            required={"required"}
+                                            value={cnpj}
+                                            manipulationFunction={(e) => {setCnpj(e.target.value);}}
+                                        />
+
+                                        <Input
+                                            id="Endereco"
+                                            placeholder=''
+                                            name={"endereco"}
+                                            type={"text"}
+                                            required={"required"}
+                                            value={endereco}
+                                            manipulationFunction={(e) => {setEndereco(e.target.value);}}
                                         />
 
                                         <div className="buttons-editbox">

@@ -6,7 +6,7 @@ import Container from '../../components/Container/Container';
 import ImageIllustrator from '../../components/ImageIllustrator/ImageIllustrator';
 import eventoImg from '../../assets/images/images/evento.svg';
 import { Input, Button, Select } from "../../components/FormComponents/FormComponents";
-import api, { eventsResource, eventsTypeResource } from '../../Services/Service';
+import api, { eventsResource, eventsTypeResource, instituicaoResource } from '../../Services/Service';
 import Notification from '../../components/Notification/Notification';
 import Spinner from '../../components/Spinner/Spinner';
 import TableEvento from './TableEvento/TableEvento';
@@ -17,31 +17,77 @@ const EventosPage = () => {
     const [descricao, setDescricao] = useState("");
     const [dataEvento, setDataEvento] = useState("");
     const [evento, setEvento] = useState([]);
+    const [tiposEvento, setTipoEventos] = useState([]); 
+    const [idTipoEvento, setIdTipoEvento] = useState('');
+    const [instituicao, setInstituicao] = useState([]);
+    const [idInstituicao, setIdInstituicao] = useState('');
     const [notifyUser, setNotifyUser] = useState();
     const [showSpinner, setShowSpinner] = useState(false);
 
-    useEffect(() => {
-        async function loadEvents() {
-            setShowSpinner(true); 
+    async function loadEventsType() {
 
-            try {
-                const retorno = await api.get(eventsResource);
-                setEvento(retorno.data)
-            } catch(error) {
-                setNotifyUser({
-                    titleNote: "Erro",
-                    textNote: "Não foi possível carregar os próximos eventos. Verifique sua conexão.",
-                    imgIcon: "danger",
-                    imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
-                    showMessage: true
-                })
-                console.log(error);
-            }
-
-            setShowSpinner(false);
+        setShowSpinner(true);
+        try {
+            const retorno = await api.get(eventsTypeResource);
+            setTipoEventos(retorno.data)
         }
-        //chama a função/api no carregamento da página/componente
-        loadEvents();
+
+        catch (error) {
+            setNotifyUser({
+                titleNote: "Erro",
+                textNote: "Erro ao cadastrar evento. Verifique sua conexão.",
+                imgIcon: "danger",
+                imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                showMessage: true
+            })
+
+        } setShowSpinner(false);
+    }
+
+    async function loadInstituicao() {
+
+        setShowSpinner(true);
+        try {
+            const retorno = await api.get(instituicaoResource);
+            setIdInstituicao(retorno.data)
+        }
+
+        catch (error) {
+            setNotifyUser({
+                titleNote: "Erro",
+                textNote: "Erro ao cadastrar evento. Verifique sua conexão.",
+                imgIcon: "danger",
+                imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                showMessage: true
+            })
+
+        } setShowSpinner(false);
+    }
+
+    async function loadEvents() {
+        setShowSpinner(true); 
+
+        try {
+            const retorno = await api.get(eventsResource);
+            setEvento(retorno.data)
+        } catch(error) {
+            setNotifyUser({
+                titleNote: "Erro",
+                textNote: "Não foi possível carregar os próximos eventos. Verifique sua conexão.",
+                imgIcon: "danger",
+                imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+                showMessage: true
+            })
+            console.log(error);
+        }
+
+        setShowSpinner(false);
+    }
+
+    useEffect(() => {
+        loadEventsType()
+        loadInstituicao()
+        loadEvents()
     }, []);
 
     /**
@@ -52,6 +98,18 @@ const EventosPage = () => {
 
         tipoEventos.forEach(element => {
             arrayOptions.push({ value: element.idTipoEvento, text: element.titulo })
+        })
+        return arrayOptions
+    }
+
+    /**
+     * Função que chama a listagem de instituições pro select
+     */
+    function tituloInstituicao(instituicao) {
+        let arrayOptions = []
+
+        instituicao.forEach(element => {
+            arrayOptions.push({ value: element.idInstituicao, text: element.nomeFantasia })
         })
         return arrayOptions
     }
@@ -78,7 +136,7 @@ const EventosPage = () => {
 
         try {
             // cadastrar na API
-            const retorno = await api.post(eventsResource, {nomeEvento:nomeEvento, descricao:descricao, dataEvento:dataEvento});
+            const retorno = await api.post(eventsResource, {nomeEvento:nomeEvento, descricao:descricao, dataEvento:dataEvento, idTipoEvento:idTipoEvento, idInstituicao:idInstituicao});
             // limpa o state
             setNomeEvento(""); 
             // notifica o usuário que deu tudo certo
@@ -228,25 +286,23 @@ const EventosPage = () => {
                                             manipulationFunction={(e) => {setDescricao(e.target.value);}}
                                         />
 
-                                        {/* <Select
-                                            id="TiposEvento"
-                                            placeholder="Tipo de Evento"
-                                            name={"tiposEvento"}
+                                        <Select
+                                            id='TiposEvento'
+                                            name={'tiposEvento'}
+                                            required={'required'}
+                                            options={tituloTipo(tiposEvento)}
                                             value={idTipoEvento}
-                                            option={tituloTipo(tiposEvento)}
-                                            required={"required"}
-                                            manipulationFunction={(e) => {setIdTipoEvento(e.target.value);}}
+                                            manipulationFunction={(e) => {setIdTipoEvento(e.target.value)}}
                                         />
 
                                         <Select
-                                            id="Instituicao"
-                                            placeholder="Instituição"
-                                            name={"instituicao"}
-                                            type={"text"} 
-                                            required={"required"}
-                                            value={instituicao}
-                                            manipulationFunction={(e) => {setInstituicao(e.target.value);}}
-                                        /> */}
+                                            id='Instituicao'
+                                            name={'instituicao'}
+                                            required={'required'}
+                                            options={tituloInstituicao(instituicao)}
+                                            value={idInstituicao}
+                                            manipulationFunction={(e) => {setIdInstituicao(e.target.value)}}
+                                        />
 
                                         <Input
                                             id="DataEvento"
