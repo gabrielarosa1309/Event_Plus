@@ -1,4 +1,5 @@
 import axios from "axios";
+
 /**
  * Rota para o recurso Evento
  */
@@ -15,6 +16,10 @@ export const eventsTypeResource = `/TiposEvento`
  * Rota para o recurso Instituição
  */
 export const instituicaoResource = '/Instituicao';
+/**
+ * Rota para o recurso Login
+ */
+export const loginResource = '/Login';
 
 const apiPort = '7118';
 const localApiUri = `https://localhost:${apiPort}/api`;
