@@ -8,10 +8,12 @@ import { Input, Button } from "../../components/FormComponents/FormComponents";
 import api, { loginResource } from "../../Services/Service";
 import Notification from '../../components/Notification/Notification';
 import { UserContext, userDecodeToken } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom"; 
 
 const LoginPage = () => {
     const [user, setUser] = useState({email: "gabi@admin.com", senha: "123456"});
     const {userData, setUserData} = useContext(UserContext); //importa os dados globais do usuário
+    const navigate = useNavigate();
     // const [notifyUser, setNotifyUser] = useState();
 
     async function handleSubmit(e) {
@@ -24,12 +26,10 @@ const LoginPage = () => {
                 console.log("Dados do usuario:");
                 console.log(promise.data);
 
-                //decodifica o token vindo
-                const userFullToken = userDecodeToken(promise.data.token);
-
-                //guarda o token globalmente
-                setUserData(userFullToken);
+                const userFullToken = userDecodeToken(promise.data.token); //decodifica o token vindo
+                setUserData(userFullToken); //guarda o token globalmente
                 localStorage.setItem("token", JSON.stringify(userFullToken));
+                
 
             } catch (error) {
               //erro da api: bad request (401) ou erro de conexao

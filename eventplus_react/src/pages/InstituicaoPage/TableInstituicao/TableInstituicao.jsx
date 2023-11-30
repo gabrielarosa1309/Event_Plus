@@ -32,7 +32,7 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
                             <td className="table-data__data table-data__data--little">
                                 <img 
                                     className="table-data__icon" alt="Ícone em forma de caneta que edita o tipo de evento" 
-                                    // idinstituicao={tp.idInstituicao}
+                                    idinstituicao={tp.idInstituicao}
                                     src={edtPen}  
                                     onClick={(e) => {fnUpdate(tp.idInstituicao)}} 
                                 />
@@ -41,7 +41,7 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
                             <td className="table-data__data table-data__data--little">
                                 <img
                                     className="table-data__icon" alt="Ícone em forma de lata de lixo que exclui o tipo de evento" 
-                                    // idinstituicao={tp.idInstituicao}
+                                    idinstituicao={tp.idInstituicao}
                                     src={trashDelete} 
                                     onClick={(e) => {fnDelete(tp.idInstituicao)}} 
                                 />

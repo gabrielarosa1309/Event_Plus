@@ -1,7 +1,8 @@
 import React from "react";
+import "./PerfilUsuario.css";
+
 import iconeLogout from "../../assets/images/images/icone-logout.svg";
 
-import "./PerfilUsuario.css";
 const PerfilUsuario = () => {
   return (
     <div className="perfil-usuario">

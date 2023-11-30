@@ -28,6 +28,8 @@ const InstituicaoPage = () => {
             try {
                 const retorno = await api.get(instituicaoResource);
                 setInstituicao(retorno.data)
+                console.log(idInstituicao);
+                console.log(instituicao);
             } catch(error) {
                 setNotifyUser({
                     titleNote: "Erro",
@@ -80,7 +82,7 @@ const InstituicaoPage = () => {
             })
             //atualiza os dados
             const buscaInstituicoes = await api.get(instituicaoResource);
-            setInstituicao(buscaInstituicoes.data);
+            setInstituicao(buscaInstituicoes.data); 
 
         } catch(error) {
             //notifica o usuário que deu tudo errado
@@ -107,7 +109,9 @@ const InstituicaoPage = () => {
 
         try {
             const retorno = await api.get(`${instituicaoResource}/${idElement}`);
-            setInstituicao(retorno.data);
+            setNomeFantasia(retorno.data.nomeFantasia);
+            setCnpj(retorno.data.cnpj);
+            setEndereco(retorno.data.endereco);
             console.log(retorno.data)
         } catch (error) {}
 
@@ -122,6 +126,8 @@ const InstituicaoPage = () => {
 
         //reseta as variáveis
         setNomeFantasia("");
+        setCnpj("");
+        setEndereco("");
         setIdInstituicao(null);
     }
 
@@ -259,7 +265,7 @@ const InstituicaoPage = () => {
                                 ) : (
                                     <>
                                         <Input
-                                            id="nomeFantasia"
+                                            id="NomeFantasia"
                                             placeholder=''
                                             name={"nomeFantasia"}
                                             type={"text"}
