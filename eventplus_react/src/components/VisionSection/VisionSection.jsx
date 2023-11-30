@@ -7,7 +7,7 @@ const VisionSection = () => {
         <section className='vision'>
             <div className="vision__box">
                 <Title titleText={"Visão"} color="white" nomeClass='vision__title'/>
-                <p className='vision__text'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti quam porro iusto reprehenderit velit incidunt aut cumque molestias perferendis, minima minus qui asperiores animi sed suscipit dolor, tempore hic consequatur!</p>
+                <p className='vision__text'>A visão do SENAI é consolidar-se como o líder nacional em educação profissional e tecnológica e ser reconhecido como indutor da inovação e da transferência de tecnologias para a Indústria Brasileira, atuando com padrão internacional de excelência.</p>
             </div>
         </section>
     );

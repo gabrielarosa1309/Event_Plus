@@ -29,7 +29,7 @@ const LoginPage = () => {
                 const userFullToken = userDecodeToken(promise.data.token); //decodifica o token vindo
                 setUserData(userFullToken); //guarda o token globalmente
                 localStorage.setItem("token", JSON.stringify(userFullToken));
-                
+                navigate("/home")
 
             } catch (error) {
               //erro da api: bad request (401) ou erro de conexao

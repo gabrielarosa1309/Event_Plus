@@ -9,7 +9,7 @@ const TableInstituicao = ({dados, fnDelete = null, fnUpdate = null}) => {
             {/* CABEÇALHO */}
             <thead className="table-data__head">
                 <tr className="table-data__head-row">
-                    <th className="table-data__head-title table-data__head-title--big">Nome Fantasia</th>
+                    <th className="table-data__head-title table-data__head-title--big">Nome da Instituição</th>
                     <th className="table-data__head-title table-data__head-title--big">Endereço</th>
                     <th className="table-data__head-title table-data__head-title--little">Editar</th>
                     <th className="table-data__head-title table-data__head-title--little">Deletar</th>

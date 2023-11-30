@@ -22,7 +22,7 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
             </Link>
             
             <div className="navbar__items-box">
-                <Link onClick={() => {setExibeNavbar(false)}} to="/" className='navbar__item'>Home</Link>
+                <Link onClick={() => {setExibeNavbar(false)}} to="/home" className='navbar__item'>Home</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/eventos" className='navbar__item'>Eventos</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/instituicoes" className='navbar__item'>Instituições</Link>
