@@ -11,7 +11,7 @@ const App = () => {
         <UserContext.Provider value={ {userData, setUserData} }>
             <Rotas/>
         </UserContext.Provider>
-    )
-}
+    );
+};
 
 export default App;
