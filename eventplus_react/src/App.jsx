@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 import { UserContext } from './context/AuthContext';
-import Rotas from './routes.js';
+import Rotas from '../src/routes/routes';
 
 const App = () => {
     const [userData, setUserData] = useState({});

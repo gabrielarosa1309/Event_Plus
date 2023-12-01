@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Nav.css';
+
 import { Link } from "react-router-dom";
 import logoMobile from "../../assets/images/images/logo-white.svg";
 import logoDesktop from "../../assets/images/images/logo-pink.svg";
+import { UserContext } from '../../context/AuthContext';
 
-const Nav = ({exibeNavbar, setExibeNavbar}) => {
-
-    console.log(`EXIBE O MENU ${exibeNavbar}`);
+const Nav = ({ exibeNavbar, setExibeNavbar }) => {
+    const { userData }  = useContext(UserContext);
 
     return (
         <nav className={`navbar ${exibeNavbar ? "exibeNavbar" : ""}`}>
@@ -23,9 +24,19 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
             
             <div className="navbar__items-box">
                 <Link onClick={() => {setExibeNavbar(false)}} to="/home" className='navbar__item'>Home</Link>
-                <Link onClick={() => {setExibeNavbar(false)}} to="/eventos" className='navbar__item'>Eventos</Link>
+
+                {userData.nome && userData.role === "Admin" ? (
+                    <>
+                        <Link to="/eventos" className='navbar__item'>Eventos</Link>
+                        <Link to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
+                    </>
+                ) : userData.nome && userData.role === "Aluno" ? (
+                    <Link to="/eventos" className='navbar__item'>Eventos - Aluno</Link>
+                ) : null}
+
+                {/* <Link onClick={() => {setExibeNavbar(false)}} to="/eventos" className='navbar__item'>Eventos</Link>
                 <Link onClick={() => {setExibeNavbar(false)}} to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
-                <Link onClick={() => {setExibeNavbar(false)}} to="/instituicoes" className='navbar__item'>Instituições</Link>
+                <Link onClick={() => {setExibeNavbar(false)}} to="/instituicoes" className='navbar__item'>Instituições</Link> */}
             </div>
         </nav>
     );
