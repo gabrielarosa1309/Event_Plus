@@ -33,5 +33,33 @@ namespace webapi.event_.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(_usuarioRepository.Listar());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _usuarioRepository.Deletar(id);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }          

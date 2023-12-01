@@ -102,5 +102,36 @@ namespace webapi.event_.Repositories
                 throw;
             }
         }
+
+        public void Deletar(Guid id)
+        {
+            try
+            {
+                Usuario UsuarioBuscado = _context.Usuario.Find(id)!;
+
+                if (UsuarioBuscado != null)
+                {
+                    _context.Usuario.Remove(UsuarioBuscado);
+                }
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Usuario> Listar()
+        {
+            try
+            {
+                return _context.Usuario.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
