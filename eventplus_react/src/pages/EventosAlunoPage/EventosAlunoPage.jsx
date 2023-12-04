@@ -22,14 +22,15 @@ const EventosAlunoPage = () => {
     { value: 1, text: "Todos os eventos" },
     { value: 2, text: "Meus eventos" },
   ]);
-  const [tipoEvento, setTipoEvento] = useState(1); //código do tipo do Evento escolhido
+  const [tipoEvento, setTipoEvento] = useState([]); //código do tipo do Evento escolhido
   const [showSpinner, setShowSpinner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [evento, setEvento] = useState([]);
+  const [eventos, setEventos] = useState([]);
   const [notifyUser, setNotifyUser] = useState();
   const { userData, setUserData } = useContext(UserContext);
 
-  async function loadStudentEventsType() {
+  async function loadStudentEvents() {
     setShowSpinner(true);
 
     try {
@@ -47,9 +48,26 @@ const EventosAlunoPage = () => {
     }
     setShowSpinner(false);
   }
+
+  async function loadStudentEventsType() {
+    setShowSpinner(true); 
+    setEventos([]);
+
+    if (tipoEvento == 1) {
+        try {
+            const retornoEventos = await api.get(eventsResource)
+            setEventos(retornoEventos.data);
+        } catch (error) {
+            
+        }
+    }
+
+    setShowSpinner(false);
+}
+
   useEffect(() => {
-    // loadStudentEventsType();
-  }, []);
+    loadStudentEventsType();
+  }, [tipoEvento]);
 
   // toggle meus eventos ou todos os eventos
   function myEvents(tpEvent) {
