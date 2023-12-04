@@ -13,7 +13,7 @@ const Nav = ({ exibeNavbar, setExibeNavbar }) => {
         <nav className={`navbar ${exibeNavbar ? "exibeNavbar" : ""}`}>
             <span onClick={() => {setExibeNavbar(false)}} className='navbar__close'>x</span>
 
-            <Link to="/" className='eventLogo'>
+            <Link to="/home" className='eventLogo'>
                 <img 
                     className='eventlogo__logo-image'
                     src={window.innerWidth >= 992 ? logoDesktop : logoMobile} 
@@ -29,14 +29,11 @@ const Nav = ({ exibeNavbar, setExibeNavbar }) => {
                     <>
                         <Link to="/eventos" className='navbar__item'>Eventos</Link>
                         <Link to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
+                        <Link to="/instituicoes" className='navbar__item'>Instituições</Link>
                     </>
                 ) : userData.nome && userData.role === "Aluno" ? (
-                    <Link to="/eventos" className='navbar__item'>Eventos - Aluno</Link>
+                    <Link to="/eventos-aluno" className='navbar__item'>Eventos</Link>
                 ) : null}
-
-                {/* <Link onClick={() => {setExibeNavbar(false)}} to="/eventos" className='navbar__item'>Eventos</Link>
-                <Link onClick={() => {setExibeNavbar(false)}} to="/tiposeventos" className='navbar__item'>Tipos de Eventos</Link>
-                <Link onClick={() => {setExibeNavbar(false)}} to="/instituicoes" className='navbar__item'>Instituições</Link> */}
             </div>
         </nav>
     );
