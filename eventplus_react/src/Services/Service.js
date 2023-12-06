@@ -9,9 +9,13 @@ export const eventsResource = '/Evento';
  */
 export const nextEventResource = '/Evento/ListarProximos';
 /**
- * Rota para o recurso Listar Meus Eventos
+ * Rota para o recurso Listar Minhas Presenças
  */
 export const myEventsResource = '/PresencasEvento/ListarMinhas';
+/**
+ * Rota para o recurso Presenças Evento
+ */
+export const presencesEventResource = '/PresencasEvento';
 /**
  * Rota para o recurso Tipos de Eventos
  */

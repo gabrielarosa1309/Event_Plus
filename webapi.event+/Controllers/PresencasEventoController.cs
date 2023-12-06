@@ -62,5 +62,19 @@ namespace webapi.event_.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Deletar(Guid id)
+        {
+            try {
+                _presencasEventoRepository.Deletar(id);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

@@ -18,7 +18,6 @@ const Nav = ({ exibeNavbar, setExibeNavbar }) => {
                     className='eventlogo__logo-image'
                     src={window.innerWidth >= 992 ? logoDesktop : logoMobile} 
                     alt="Event+ Logo" 
-                    onClick={() => {setExibeNavbar(false)}}
                 />
             </Link>
             
