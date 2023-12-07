@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Modal.css";
 
 import trashDelete from "../../assets/images/images/trash-delete-red.png";
@@ -10,9 +10,18 @@ const Modal = ({
   userId = null,
   showHideModal = false,
   fnDelete = null,
-  fnNewCommentary = null
+  fnGet = null,
+  fnPost = null
 
 }) => {
+
+  useEffect (() => {
+    async function carregarDados(){
+      fnGet();
+    }
+
+    carregarDados();
+  } , []);
 
   return (
     <div className="modal">
@@ -29,7 +38,7 @@ const Modal = ({
             src={trashDelete}
             className="comentary__icon-delete"
             alt="Ícone de uma lixeira"
-            onClick={fnDelete}
+            manipulationFunction = {() => (fnDelete)}
           />
 
           <p className="comentary__text">{comentaryText}</p>
@@ -39,13 +48,13 @@ const Modal = ({
 
         <Input
           placeholder="Escreva seu comentário..."
-          className="comentary__entry"
+          additionalClass = "comentary__entry"
         />
 
         <Button
-          buttonText="Comentar"
-          className="comentary__button"
-          onClick={fnNewCommentary}
+          textButton="Comentar"
+          additionalClass = "comentary__button"
+          manipulationFunction = {() => (fnPost)}
         />
       </article>
     </div>

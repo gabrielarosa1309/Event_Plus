@@ -38,9 +38,20 @@ const EventosAlunoPage = () => {
     if (tipoEvento === "1") {
       //todos os eventos
       try {
-        const retornoEventos = await api.get(eventsResource);
-        setEventos(retornoEventos.data);
-        console.log(retornoEventos.data);
+        const retornoTodosEventos = await api.get(eventsResource);
+
+        const retornoEvntos = await api.get(`${myEventsResource}/${userData.userId}`);
+
+        const eventosMarcados = verificaPresenca(retornoTodosEventos, retornoEvntos);
+
+        setEventos(eventosMarcados);
+
+        console.log("Todos eventos");
+        console.log(retornoTodosEventos.data);
+        console.log("MEus Eventos");
+        console.log(retornoEvntos.data);
+        console.log("eventos marcados");
+        console.log(eventosMarcados.data);
       } catch (error) {
         setNotifyUser({
           titleNote: "Erro",
@@ -63,9 +74,10 @@ const EventosAlunoPage = () => {
         
         const arrEventos = [];//array vazio
         
-        retornoEventos.data.forEach((e) => {arrEventos.push({...e.evento, situacao : e.situacao})});
+        retornoEventos.data.forEach((e) => {arrEventos.push({...e.evento, situacao : e.situacao, idPresencaEvento : e.idPresencaEvento})});
 
         setEventos(arrEventos);
+        
       } catch (error) {
         setNotifyUser({
           titleNote: "Erro",
@@ -90,7 +102,7 @@ const EventosAlunoPage = () => {
       //para cada evento principal
       for (let i = 0; i < eventsUser.length; i++) {
         //procurar a correspondência em minhas presenças
-        if(arrAllEvents[x].idEvento === eventsUser[i].evento.idEvento) {
+        if(arrAllEvents[x].idEvento === eventsUser[i].eventos.idEvento) {
           arrAllEvents[x].situacao = true;
           arrAllEvents[x].idPresencaEvento = eventsUser[i].idPresencaEvento;
           break;//paro de procurar para o evento principal atual
@@ -98,32 +110,42 @@ const EventosAlunoPage = () => {
       }
     }
     
+    return arrAllEvents;
   }
 
   // toggle meus eventos ou todos os eventos
   function myEvents(tpEvent) {
     setTipoEvento(tpEvent);
   }
-
-  async function loadMyComentary(idComentary) {
-    return "????";
-  }
-
+  
   const showHideModal = () => {
     setShowModal(showModal ? false : true);
   };
 
+  //remove o comentário
   const commentaryRemove = () => {
     alert("Remover o comentário");
   };
 
+  //posta o comentário
+  async function postMyCommentary(idCommentary) {
+    return "????";
+  }
+
+  //carrega o comentário
+  async function loadMyCommentary(idCommentary) {
+    return "????";
+  }
+
   async function handleConnect(eventId, whatTheFunction, presencaId = null) {
     //CONNECT
-    if (whatTheFunction === "connect"){
+    if (whatTheFunction === "connect") {
       try {
         const promise = await api.post(presencesEventResource, {situacao : true, idUsuario : userData.userId, idEvento : eventId});
 
         if (promise.status === 201) {
+          loadStudentEventsType();
+        
           setNotifyUser({
             titleNote: "Sucesso",
             textNote: "Sua presença foi confirmada para este evento!",
@@ -132,10 +154,6 @@ const EventosAlunoPage = () => {
             showMessage: true
           })
         }
-
-        const todosEventos = api.get(eventsResource);
-        setEventos(todosEventos.data)
-
       } catch (error) {
         setNotifyUser({
           titleNote: "Erro",
@@ -143,7 +161,7 @@ const EventosAlunoPage = () => {
           imgIcon: "danger",
           imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
           showMessage: true,
-        });
+          });
       }
       return;
     }
@@ -153,21 +171,27 @@ const EventosAlunoPage = () => {
       const unconnect = api.delete(`${presencesEventResource}/${presencaId}`);
 
       if (unconnect.status === 204) {
-        const todosEventos = await api.get(eventsResource);
-        setEventos(todosEventos.data);
+        loadStudentEventsType();
 
         setNotifyUser({
           titleNote: "Sucesso",
-          textNote: "Sua presença foi confirmada para este evento!",
+          textNote: "Sua presença foi desconfirmada para este evento!",
           imgIcon: "success",
           imgAlt: "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok.",
           showMessage: true
-        })
+          })
       }
     } catch (error) {
-      
+      setNotifyUser({
+        titleNote: "Erro",
+        textNote: "Não foi possível se desconectar do evento. Verifique sua conexão.",
+        imgIcon: "danger",
+        imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
+        showMessage: true,
+        });
     }
   }
+
   return (
     <>
       {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
@@ -201,6 +225,8 @@ const EventosAlunoPage = () => {
         <Modal
           userId={userData.userId}
           showHideModal={showHideModal}
+          fnGet={loadMyCommentary}
+          fnPost={postMyCommentary}
           fnDelete={commentaryRemove}
         />
       ) : null}

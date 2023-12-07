@@ -13,15 +13,18 @@ namespace webapi.event_.Repositories
             _context = new Event_Context();
         }
 
-        public ComentariosEvento BuscarPorId(Guid id)
+        public ComentariosEvento BuscarPorIdUsuario(Guid id)
         {
             try
             {
                 return _context.ComentariosEvento
                     .Select(c => new ComentariosEvento
                     {
+                        IdComentarioEvento = c.IdComentarioEvento,
                         Descricao = c.Descricao,
                         Exibe = c.Exibe,
+                        IdEvento = c.IdEvento,
+                        IdUsuario = c.IdUsuario,
 
                         Usuario = new Usuario
                         {
@@ -33,7 +36,7 @@ namespace webapi.event_.Repositories
                             NomeEvento = c.Evento!.NomeEvento,
                         }
 
-                    }).FirstOrDefault(c => c.IdComentarioEvento == id)!;
+                    }).FirstOrDefault(c => c.IdUsuario == id)!;
             }
             catch (Exception)
             {
@@ -46,6 +49,8 @@ namespace webapi.event_.Repositories
             try
             {
                 _context.ComentariosEvento.Add(comentarioEvento);
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -80,8 +85,11 @@ namespace webapi.event_.Repositories
                 return _context.ComentariosEvento
                     .Select(c => new ComentariosEvento
                     {
+                        IdComentarioEvento = c.IdComentarioEvento,
                         Descricao = c.Descricao,
                         Exibe = c.Exibe,
+                        IdEvento = c.IdEvento,
+                        IdUsuario = c.IdUsuario,
 
                         Usuario = new Usuario
                         {

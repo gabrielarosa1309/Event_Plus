@@ -8,6 +8,8 @@ namespace webapi.event_.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
+
     public class PresencasEventoController : ControllerBase
     {
         private IPresencasEventoRepository _presencasEventoRepository { get; set; }
@@ -17,12 +19,12 @@ namespace webapi.event_.Controllers
             _presencasEventoRepository = new PresencaRepository();
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
         {
             try
             {
-                return Ok(_presencasEventoRepository.Listar());
+                return Ok(_presencasEventoRepository.BuscarPorId(id));
             }
             catch (Exception e)
             {
