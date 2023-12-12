@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -114,6 +115,14 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
         });
 });
+
+//Configuração do serviço de moderacão de conteúdo - Azure
+//Chave e endpoint obtidos na Azure
+builder.Services.AddSingleton(provider => new ContentModeratorClient(new ApiKeyServiceClientCredentials("3d246bc7fad745b9b7be575fb729b9b7"))
+{
+    Endpoint = "https://eventmoderator-gabi.cognitiveservices.azure.com/"
+}
+);
 
 var app = builder.Build();
 

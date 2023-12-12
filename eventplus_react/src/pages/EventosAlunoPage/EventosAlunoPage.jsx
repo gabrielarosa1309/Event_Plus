@@ -34,61 +34,50 @@ const EventosAlunoPage = () => {
     const { userData, setUserData } = useContext(UserContext);
 
   async function loadStudentEventsType() {
-    setShowSpinner(true); 
-    if (tipoEvento === "1") {
-      //todos os eventos
-      try {
-        const retornoTodosEventos = await api.get(eventsResource);
+    setShowSpinner(true);
+    try {
+      if (tipoEvento === "1") {
+        //todos os eventos
+        const promise = await api.get("/Evento");
+        const promiseEventos = await api.get(
+          `/PresencasEvento/ListarMinhas/${userData.userId}`
+        );
 
-        const retornoEvntos = await api.get(`${myEventsResource}/${userData.userId}`);
+        console.clear();
+        console.log("TODOS OS EVENTOS");
+        console.log(promise.data); //
 
-        const eventosMarcados = verificaPresenca(retornoTodosEventos, retornoEvntos);
+        console.log("MEUS EVENTOS");
+        console.log(promiseEventos.data);
 
-        setEventos(eventosMarcados);
+        const dadosMarcados = verificaPresenca(
+          promise.data,
+          promiseEventos.data
+        );
+        console.log("DADOS MARCADOS");
+        console.log(dadosMarcados);
 
-        console.log("Todos eventos");
-        console.log(retornoTodosEventos.data);
-        console.log("MEus Eventos");
-        console.log(retornoEvntos.data);
-        console.log("eventos marcados");
-        console.log(eventosMarcados.data);
-      } catch (error) {
-        setNotifyUser({
-          titleNote: "Erro",
-          textNote: "Erro ao carregar eventos. Verifique sua conexão.",
-          imgIcon: "danger",
-          imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
-          showMessage: true,
+        setEventos(promise.data);
+        // console.log(promise.data);
+      } else {
+        //meus eventos
+        let arrEventos = [];
+        const promiseEventos = await api.get(
+          `/PresencasEvento/ListarMinhas/${userData.userId}`
+        );
+        promiseEventos.data.forEach((element) => {
+          arrEventos.push({
+            ...element.evento,
+            situacao: element.situacao,
+            idPresencaEvento: element.idPresencaEvento,
+          });
         });
-      }
-    } else if (tipoEvento === "2") {
-      /**
-       * Lista os meus eventos (PresencasEventos) 
-       * retorna um formato diferente de array
-       */
-      try {
-        const retornoEventos = await api.get(`${myEventsResource}/${userData.userId}`);
-        console.clear()
-        console.log("MINHAS PRESENÇAS");
-        console.log(retornoEventos.data);
-        
-        const arrEventos = [];//array vazio
-        
-        retornoEventos.data.forEach((e) => {arrEventos.push({...e.evento, situacao : e.situacao, idPresencaEvento : e.idPresencaEvento})});
-
         setEventos(arrEventos);
-        
-      } catch (error) {
-        setNotifyUser({
-          titleNote: "Erro",
-          textNote: "Erro ao carregar eventos. Verifique sua conexão.",
-          imgIcon: "danger",
-          imgAlt: "Imagem de ilustração de falha. Rapaz segurando um balão com símbolo x.",
-          showMessage: true,
-        });
+        console.log(promiseEventos.data);
       }
-    } else {
-      setEventos([]);
+    } catch (error) {
+      console.log("Erro ao carregar os eventos");
+      console.log(error);
     }
     setShowSpinner(false);
 }
