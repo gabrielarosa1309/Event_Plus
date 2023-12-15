@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace webapi.event_.Domains
 {
     [Table("Instituicao")]
-    [Index(nameof(CNPJ), IsUnique =true)]
+    [Index(nameof(CNPJ), IsUnique = true)]
     public class Instituicao
     {
         [Key]
         public Guid IdInstituicao { get; set; } = Guid.NewGuid();
 
         [Column(TypeName = "VARCHAR(14)")]
-        [Required(ErrorMessage ="Cnpj obrigatório!")]
+        [Required(ErrorMessage = "Cnpj obrigatório!")]
         [StringLength(14)]
         public string? CNPJ { get; set; }
 

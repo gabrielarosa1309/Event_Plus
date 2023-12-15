@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 using System.Text;
 using webapi.event_.Domains;
 using webapi.event_.Repositories;
@@ -31,11 +29,11 @@ namespace webapi.event_.Controllers
         }
 
         [HttpPost("ComentarioIA")]
-        public async Task<IActionResult> PostIA (ComentariosEvento novocomentario)
+        public async Task<IActionResult> PostIA(ComentariosEvento novocomentario)
         {
             try
             {
-                if((novocomentario.Descricao).IsNullOrEmpty())
+                if ((novocomentario.Descricao).IsNullOrEmpty())
                 {
                     return BadRequest("A descrição do comentário não pode estar vazia ou nula!");
                 }
@@ -45,7 +43,7 @@ namespace webapi.event_.Controllers
                 var moderationResult = await _contentModeratorClient.TextModeration
                     .ScreenTextAsync("text/plain", stream, "por", false, false, null, true);
 
-                if(moderationResult.Terms != null)
+                if (moderationResult.Terms != null)
                 {
                     novocomentario.Exibe = false;
                     comentario.Cadastrar(novocomentario);
@@ -55,10 +53,12 @@ namespace webapi.event_.Controllers
                     novocomentario.Exibe = true;
                     comentario.Cadastrar(novocomentario);
                 }
-            }
-            catch (Exception)
-            {
 
+                return StatusCode(201, novocomentario);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

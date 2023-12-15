@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapi.event_.Domains
@@ -11,7 +10,7 @@ namespace webapi.event_.Domains
         public Guid IdComentarioEvento { get; set; } = Guid.NewGuid();
 
         [Column(TypeName = "VARCHAR(200)")]
-        [Required(ErrorMessage ="Descrição do comentário obrigatório!")]
+        [Required(ErrorMessage = "Descrição do comentário obrigatório!")]
         public string? Descricao { get; set; }
 
         [Column(TypeName = "BIT")]
@@ -19,7 +18,7 @@ namespace webapi.event_.Domains
         public bool Exibe { get; set; }
 
         //ref.tabela Usuario
-        [Required(ErrorMessage ="Usuário obrigatório!")]
+        [Required(ErrorMessage = "Usuário obrigatório!")]
         public Guid IdUsuario { get; set; }
 
         [ForeignKey("IdUsuario")]

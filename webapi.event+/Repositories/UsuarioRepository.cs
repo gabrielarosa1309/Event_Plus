@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using webapi.event_.Contexts;
+﻿using webapi.event_.Contexts;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Utils;

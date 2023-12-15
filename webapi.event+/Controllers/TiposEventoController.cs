@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
@@ -8,7 +7,7 @@ namespace webapi.event_.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Produces("application/json")]  
+    [Produces("application/json")]
     public class TiposEventoController : ControllerBase
     {
         private ITiposEventoRepository _tiposEventoRepository { get; set; }
@@ -51,7 +50,7 @@ namespace webapi.event_.Controllers
             {
                 _tiposEventoRepository.Cadastrar(tiposEvento);
 
-                return StatusCode(201,tiposEvento);
+                return StatusCode(201, tiposEvento);
             }
             catch (Exception e)
             {

@@ -118,9 +118,9 @@ builder.Services.AddCors(options =>
 
 //Configuração do serviço de moderacão de conteúdo - Azure
 //Chave e endpoint obtidos na Azure
-builder.Services.AddSingleton(provider => new ContentModeratorClient(new ApiKeyServiceClientCredentials("3d246bc7fad745b9b7be575fb729b9b7"))
+builder.Services.AddSingleton(provider => new ContentModeratorClient(new ApiKeyServiceClientCredentials("4b310a15da8846e3a559037348235576"))
 {
-    Endpoint = "https://eventmoderator-gabi.cognitiveservices.azure.com/"
+    Endpoint = "https://eventmoderator--gabi.cognitiveservices.azure.com/"
 }
 );
 

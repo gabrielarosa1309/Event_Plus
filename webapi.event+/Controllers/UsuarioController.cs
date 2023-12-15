@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
@@ -25,7 +24,7 @@ namespace webapi.event_.Controllers
             {
                 _usuarioRepository.Cadastrar(usuario);
 
-                return StatusCode(201,usuario);
+                return StatusCode(201, usuario);
             }
             catch (Exception error)
             {
@@ -62,4 +61,4 @@ namespace webapi.event_.Controllers
         }
 
     }
-}          
+}

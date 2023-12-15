@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
@@ -51,7 +50,7 @@ namespace webapi.event_.Controllers
             {
                 _tiposUsuarioRepository.Cadastrar(tiposUsuario);
 
-                return StatusCode(201,tiposUsuario);
+                return StatusCode(201, tiposUsuario);
             }
             catch (Exception e)
             {

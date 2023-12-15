@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
@@ -67,7 +66,8 @@ namespace webapi.event_.Controllers
         [HttpDelete("{id}")]
         public IActionResult Deletar(Guid id)
         {
-            try {
+            try
+            {
                 _presencasEventoRepository.Deletar(id);
 
                 return NoContent();

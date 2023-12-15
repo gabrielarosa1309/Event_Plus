@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design;
-using webapi.event_.Contexts;
+﻿using webapi.event_.Contexts;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 
@@ -62,7 +61,7 @@ namespace webapi.event_.Repositories
             {
                 throw;
             }
-            
+
         }
 
         public void Deletar(Guid id)
@@ -82,7 +81,7 @@ namespace webapi.event_.Repositories
             {
                 throw;
             }
-            
+
         }
 
         public List<Evento> Listar()
@@ -90,7 +89,7 @@ namespace webapi.event_.Repositories
             try
             {
                 return _context.Evento
-                    .Select(e => new Evento 
+                    .Select(e => new Evento
                     {
                         IdEvento = e.IdEvento,
                         DataEvento = e.DataEvento,
